@@ -1,0 +1,6 @@
+{
+    "import": [
+      "yj-qin/regexp",
+      "zhristophe/mbt-aoc24/lib"
+    ]
+}
