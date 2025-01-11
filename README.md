@@ -1,3 +1,3 @@
-# zhristophe/ mbt-aoc24
+# zhristophe/mbt-aoc24
 
-AOC2024的moonbit解决方案
+`Advent of Code 2024`的`MoonBit`解决方案
