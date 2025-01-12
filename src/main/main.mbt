@@ -9,6 +9,8 @@ fn main {
     println(@day03.part2!(0))
     println(@day04.part1!(0))
     println(@day04.part2!(0))
+    println(@day05.part1!(0))
+    println(@day05.part2!(0))
   } catch {
     err => println(err)
   }
