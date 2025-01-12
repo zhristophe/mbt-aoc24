@@ -1,10 +1,15 @@
 ///|
 fn main {
-  // println(@lib.hello())
-  // try {
-  //   let data = @lib.fetch_input!(1)
-  //   println(data)
-  // } catch {
-  //   err => println("Error: \{err}")
-  // }
+  try {
+    println(@day01.part1!(0))
+    println(@day01.part2!(0))
+    println(@day02.part1!(0))
+    println(@day02.part2!(0))
+    println(@day03.part1!(0))
+    println(@day03.part2!(0))
+    println(@day04.part1!(0))
+    println(@day04.part2!(0))
+  } catch {
+    err => println(err)
+  }
 }
