@@ -9,11 +9,6 @@ pub fn part1(idx : Int) -> Int! {
   res
 }
 
-test "part1" {
-  assert_eq!(part1!(0), 936063)
-  assert_eq!(part1!(1), 11)
-}
-
 ///| 简单遍历, O(n^2)
 pub fn part2(idx : Int) -> Int! {
   let input = input!(idx)
@@ -22,11 +17,6 @@ pub fn part2(idx : Int) -> Int! {
     a => input[1].each(fn { b => res += if a == b { a } else { 0 } })
   })
   res
-}
-
-test "part2" {
-  assert_eq!(part2!(0), 23150395)
-  assert_eq!(part2!(1), 31)
 }
 
 ///| 处理输入

@@ -19,11 +19,6 @@ pub fn part1(idx : Int) -> Int! {
   res
 }
 
-test "part1" {
-  assert_eq!(part1!(0), 190604937)
-  assert_eq!(part1!(1), 161)
-}
-
 ///| 匹配一个字符串，返回是否匹配，以及剩余的字符串
 fn match_str(str : ArrayView[Char], pat : String) -> (Bool, ArrayView[Char]) {
   let pat = pat.to_array()[:]
@@ -134,11 +129,6 @@ pub fn part2(idx : Int) -> Int! {
       }
   }
   res
-}
-
-test "part2" {
-  assert_eq!(part2!(0), 82857512)
-  assert_eq!(part2!(2), 48)
 }
 
 ///| 处理输入

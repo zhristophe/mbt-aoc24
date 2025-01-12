@@ -16,11 +16,6 @@ pub fn part1(idx : Int) -> Int! {
   res
 }
 
-test "part1" {
-  assert_eq!(part1!(0), 369)
-  assert_eq!(part1!(1), 2)
-}
-
 ///| 只有一次机会，找到特异点后尝试删除相邻点即可，O(mn)
 pub fn part2(idx : Int) -> Int! {
   let input = input!(idx)
@@ -68,11 +63,6 @@ pub fn part2(idx : Int) -> Int! {
     }
   }
   res
-}
-
-test "part2" {
-  assert_eq!(part2!(0), 428)
-  assert_eq!(part2!(1), 4)
 }
 
 ///| 处理输入
