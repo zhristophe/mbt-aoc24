@@ -1,3 +1,33 @@
+test "grid_copy" {
+  let grid = [[1, 2, 3], [4, 5, 6]]
+  let grid = Grid::from(grid)
+  let grid_copy = grid.copy()
+  assert_eq!(grid_copy, grid)
+  let pt = Point::new(1, 1)
+  grid_copy[pt] = 7
+  assert_eq!(grid[pt], 5)
+  assert_eq!(grid_copy[pt], 7)
+  fn update_grid(grid : Grid[Int], pt : Point, val : Int) {
+    grid[pt] = val
+    grid.display(fn { _, v => v.to_string().pad_start(3, ' ') })
+  }
+
+  let pt1 = Point::new(0, 0)
+  let pt2 = Point::new(1, 1)
+  update_grid(grid.copy(), pt1, 8)
+  assert_eq!(grid[pt1], 1)
+  update_grid(grid.copy(), pt2, 9)
+  assert_eq!(grid[pt2], 5)
+}
+
+test "array_copy" {
+  // XXX: 现版本moonbit没有copy trait，复杂元素会指向同一片内存
+  let grid = [[1, 2, 3], [4, 5, 6]]
+  let grid2 = grid.copy()
+  grid2[1][1] = 7
+  assert_eq!(grid, [[1, 2, 3], [4, 7, 6]])
+}
+
 test "grid_points" {
   let grid = [[1, 2, 3], [4, 5, 6]]
   let grid = Grid::from(grid)

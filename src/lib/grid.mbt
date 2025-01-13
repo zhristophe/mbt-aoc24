@@ -1,9 +1,11 @@
 ///|
 pub struct Grid[T] {
+  // XXX: 对于moonbit，由于二维数组内存不连续，转成一维数组理论上会提高效率
   inner : Array[Array[T]]
 } derive(Eq, Show)
 
-///|
+///| 现版本没有copy trait，因此该函数不可用于复杂类型T
+/// 如果T为复杂类型，使用new_with
 pub fn Grid::new[T](size : (Int, Int), default : T) -> Grid[T] {
   let inner = Array::new(capacity=size.0)
   for _ in 0..<size.0 {
@@ -17,8 +19,27 @@ pub fn Grid::new[T](size : (Int, Int), default : T) -> Grid[T] {
 }
 
 ///|
+pub fn Grid::new_with[T](size : (Int, Int), f : (Point) -> T) -> Grid[T] {
+  let inner = Array::new(capacity=size.0)
+  for r in 0..<size.0 {
+    let row = Array::new(capacity=size.1)
+    for c in 0..<size.1 {
+      row.push(f(Point::new(r, c)))
+    }
+    inner.push(row)
+  }
+  { inner, }
+}
+
+///|
 pub fn Grid::from[T](inner : Array[Array[T]]) -> Grid[T] {
   { inner, }
+}
+
+///| FIXME: 当T是复杂类型时，copy出的grid中的元素和原来的指向一致
+/// XXX: moonbit现版本没有copy trait
+pub fn Grid::copy[T](self : Grid[T]) -> Grid[T] {
+  { inner: self.inner.map(fn { row => row.copy() }) }
 }
 
 ///|
@@ -70,6 +91,24 @@ pub fn Grid::update[T](self : Grid[T], pt : Point, f : (T) -> T) -> Unit {
 pub fn Grid::contains[T](self : Grid[T], pt : Point) -> Bool {
   self.inner.get(pt.r).is_empty() == false &&
   self.inner[pt.r].get(pt.c).is_empty() == false
+}
+
+///| 
+pub fn Grid::display[T](self : Grid[T], f : (Point, T) -> String) -> Unit {
+  println(self.format(f))
+}
+
+///|
+pub fn Grid::format[T](self : Grid[T], f : (Point, T) -> String) -> String {
+  let mut res = ""
+  for r in 0..<self.row_count() {
+    for c in 0..<self.col_count() {
+      let pt = Point::new(r, c)
+      res += f(pt, self[pt])
+    }
+    res += "\n"
+  }
+  res
 }
 
 ///|
@@ -231,6 +270,16 @@ pub fn Point::move_to(self : Point, dir : Direction) -> Point {
 }
 
 ///|
+pub fn Point::with_row(self : Point, r : Int) -> Point {
+  Point::new(r, self.c)
+}
+
+///|
+pub fn Point::with_col(self : Point, c : Int) -> Point {
+  Point::new(self.r, c)
+}
+
+///|
 pub enum Direction {
   Up
   Down
@@ -264,12 +313,52 @@ pub fn Direction::right() -> Direction {
 }
 
 ///|
+pub fn Direction::turn_right(self : Direction) -> Direction {
+  match self {
+    Direction::Up => Direction::Right
+    Direction::Down => Direction::Left
+    Direction::Left => Direction::Up
+    Direction::Right => Direction::Down
+  }
+}
+
+///|
+pub fn Direction::turn_left(self : Direction) -> Direction {
+  match self {
+    Direction::Up => Direction::Left
+    Direction::Down => Direction::Right
+    Direction::Left => Direction::Down
+    Direction::Right => Direction::Up
+  }
+}
+
+///|
+pub fn Direction::turn_around(self : Direction) -> Direction {
+  match self {
+    Direction::Up => Direction::Down
+    Direction::Down => Direction::Up
+    Direction::Left => Direction::Right
+    Direction::Right => Direction::Left
+  }
+}
+
+///|
 pub fn Direction::to_point(self : Direction) -> Point {
   match self {
     Direction::Up => Point::new(-1, 0)
     Direction::Down => Point::new(1, 0)
     Direction::Left => Point::new(0, -1)
     Direction::Right => Point::new(0, 1)
+  }
+}
+
+///|
+pub fn Direction::to_index(self : Direction) -> Int {
+  match self {
+    Direction::Up => 0
+    Direction::Down => 1
+    Direction::Left => 2
+    Direction::Right => 3
   }
 }
 
