@@ -9,7 +9,6 @@ test "grid_copy" {
   assert_eq!(grid_copy[pt], 7)
   fn update_grid(grid : Grid[Int], pt : Point, val : Int) {
     grid[pt] = val
-    grid.display(fn { _, v => v.to_string().pad_start(3, ' ') })
   }
 
   let pt1 = Point::new(0, 0)

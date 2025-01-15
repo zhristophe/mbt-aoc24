@@ -9,3 +9,30 @@ pub fn int2str(n : Int, padding~ : Int = 0) -> String {
     res
   }
 }
+
+///|
+pub fn parse_int(s : String) -> Int {
+  try {
+    @strconv.parse_int!(s)
+  } catch {
+    _ => 0
+  }
+}
+
+///|
+pub fn parse_uint(s : String) -> UInt {
+  try {
+    @strconv.parse_uint!(s)
+  } catch {
+    _ => 0
+  }
+}
+
+///|
+pub fn parse_uint64(s : String) -> UInt64 {
+  try {
+    @strconv.parse_uint64!(s)
+  } catch {
+    _ => 0
+  }
+}
