@@ -4,37 +4,44 @@ pub fn part1(idx : Int) -> UInt64! {
   let mut res : UInt64 = 0
   for input in input {
     let (tgt, seq) = input
-    if solve(tgt, seq[0], seq[1:], false) {
+    if solve(tgt, seq.length() - 1, seq, false) {
       res += tgt
     }
   }
   res
 }
 
-///|
-fn concat(a : UInt64, b : UInt64) -> UInt64 {
-  loop a, b {
-    a, 0 => break a + b
-    a, b => continue a * 10, b / 10
+///| 从后往前推，能利用整除、尾数等来提前剪枝
+fn solve(tgt : UInt64, idx : Int, seq : Array[UInt64], part2 : Bool) -> Bool {
+  if idx == 0 {
+    return tgt == seq[0]
   }
-}
-
-///|
-fn solve(
-  tgt : UInt64,
-  acc : UInt64,
-  seq : ArrayView[UInt64],
-  part2 : Bool
-) -> Bool {
-  if seq.length() == 0 {
-    return tgt == acc
-  }
-  if acc > tgt {
+  let val = seq[idx]
+  if tgt < val {
     return false
   }
-  solve(tgt, acc + seq[0], seq[1:], part2) ||
-  solve(tgt, acc * seq[0], seq[1:], part2) ||
-  (part2 && solve(tgt, concat(acc, seq[0]), seq[1:], part2))
+  if solve(tgt - val, idx - 1, seq, part2) {
+    return true
+  }
+  if tgt % val == 0 && solve(tgt / val, idx - 1, seq, part2) {
+    return true
+  }
+  if part2 {
+    let new_tgt = loop tgt, val {
+      tgt, 0 => break Some(tgt)
+      tgt, seq0 => {
+        if tgt % 10 != seq0 % 10 {
+          break None
+        }
+        continue tgt / 10, seq0 / 10
+      }
+    }
+    match new_tgt {
+      Some(tgt) => if solve(tgt, idx - 1, seq, part2) { return true }
+      None => ()
+    }
+  }
+  false
 }
 
 ///|
@@ -43,7 +50,7 @@ pub fn part2(idx : Int) -> UInt64! {
   let mut res : UInt64 = 0
   for input in input {
     let (tgt, seq) = input
-    if solve(tgt, seq[0], seq[1:], true) {
+    if solve(tgt, seq.length() - 1, seq, true) {
       res += tgt
     }
   }
