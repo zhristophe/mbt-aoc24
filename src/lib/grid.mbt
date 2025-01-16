@@ -64,6 +64,17 @@ pub fn Grid::get[T](self : Grid[T], pt : Point) -> T? {
 }
 
 ///|
+pub fn Grid::get_and_set[T](self : Grid[T], pt : Point, val : T) -> T? {
+  if self.contains(pt) {
+    let old = self.inner[pt.r][pt.c]
+    self.inner[pt.r][pt.c] = val
+    Some(old)
+  } else {
+    None
+  }
+}
+
+///|
 pub fn Grid::op_get[T](self : Grid[T], pt : Point) -> T {
   self.inner[pt.r][pt.c]
 }
@@ -257,6 +268,11 @@ pub fn Point::new(r : Int, c : Int) -> Point {
 ///|
 pub fn Point::op_add(self : Point, pt : Point) -> Point {
   Point::new(self.r + pt.r, self.c + pt.c)
+}
+
+///|
+pub fn Point::op_sub(self : Point, pt : Point) -> Point {
+  Point::new(self.r - pt.r, self.c - pt.c)
 }
 
 ///|

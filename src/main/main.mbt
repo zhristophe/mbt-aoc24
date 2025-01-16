@@ -13,6 +13,10 @@ fn main {
     println(@day05.part2!(0))
     println(@day06.part1!(0))
     println(@day06.part2!(0))
+    println(@day07.part1!(0))
+    println(@day07.part2!(0))
+    println(@day08.part1!(0))
+    println(@day08.part2!(0))
   } catch {
     err => println(err)
   }
