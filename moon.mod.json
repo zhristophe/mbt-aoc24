@@ -2,7 +2,7 @@
   "name": "zhristophe/mbt-aoc24",
   "version": "0.1.0",
   "deps": {
-    "moonbitlang/x": "0.4.16",
+    "moonbitlang/x": "0.4.17",
     "yj-qin/regexp": "0.3.3"
   },
   "readme": "README.md",
