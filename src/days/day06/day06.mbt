@@ -50,7 +50,7 @@ pub fn part2(idx : Int) -> Int! {
   let input = input!(idx)
   let grid = @lib.Grid::from(input)
   let stt = grid.find_point('^').unwrap()
-  guard let visited = patrol(grid, stt).0
+  let visited = patrol(grid, stt).0
   let mut res = 0
   for pt in grid.points() {
     if visited[pt] && grid[pt] == '.' {
@@ -203,7 +203,7 @@ pub fn part2_fast(idx : Int) -> Int! {
   for c in 0..<grid.col_count() {
     generate_cache_for_col(cache, grid, c)
   }
-  guard let visited = patrol(grid, stt).0
+  let visited = patrol(grid, stt).0
   let mut res = 0
   res = 0
   for pt in grid.points() {
