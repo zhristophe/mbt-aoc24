@@ -75,9 +75,14 @@ test "grid_bfs" {
   let steps = Grid::new(grid.size(), @int.max_value)
   steps.set(stt, 0)
   grid
-  .bfs_iter_builder(stt)
+  .bfs_iter_builder()
+  .start_from(stt)
   .skip_tiles('#')
-  .on_discover(fn { old, new => steps.set(new, steps[old] + 1) })
+  .on_discover(fn {
+    old, new =>
+      // println("old: \{old}, new: \{new}")
+      steps.set(new, steps[old] + 1)
+  })
   .run_with_target(end)
   assert_eq!(
     steps,

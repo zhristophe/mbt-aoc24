@@ -151,40 +151,68 @@ pub fn Grid::find_points[T : Eq](self : Grid[T], val : T) -> Iter[Point] {
 }
 
 ///|
-pub fn Grid::bfs_iter_builder[T](self : Grid[T], stt : Point) -> BfsIter[T] {
+pub fn Grid::find_adj[T](self : Grid[T], pt : Point) -> Iter[Point] {
+  dirs()
+  .map(fn { dir => pt.move_to(dir) })
+  .iter()
+  .filter(fn { pt => self.contains(pt) })
+}
+
+///|
+pub fn Grid::bfs_iter_builder[T](self : Grid[T]) -> BfsIter[T] {
   {
     grid: self,
-    stt,
-    filter: fn(_) { true },
+    stt: [],
+    filter: fn(_, _) { true },
     discovery_handler: fn(_, _) {  },
     visit_handler: fn(_) {  },
+    // allow_rediscover: false,
   }
 }
 
 ///|
 struct BfsIter[T] {
   grid : Grid[T]
-  stt : Point
-  mut filter : (Point) -> Bool
+  stt : Array[Point]
+  mut filter : (Point, Point) -> Bool
   mut discovery_handler : (Point, Point) -> Unit
   mut visit_handler : (Point) -> Unit
+  // mut allow_rediscover : Bool
 }
 
 ///|
-pub fn BfsIter::filter[T](self : BfsIter[T], f : (Point) -> Bool) -> BfsIter[T] {
+pub fn BfsIter::start_from[T](self : BfsIter[T], pt : Point) -> BfsIter[T] {
+  self.stt.push(pt)
+  self
+}
+
+///|
+pub fn BfsIter::start_from_points[T](
+  self : BfsIter[T],
+  pts : Array[Point]
+) -> BfsIter[T] {
+  self.stt.append(pts)
+  self
+}
+
+///|
+pub fn BfsIter::filter[T](
+  self : BfsIter[T],
+  f : (Point, Point) -> Bool
+) -> BfsIter[T] {
   self.filter = f
   self
 }
 
 ///|
 pub fn BfsIter::skip_tiles[T : Eq](self : BfsIter[T], tile : T) -> BfsIter[T] {
-  self.filter = fn(x) { self.grid.get(x) != Some(tile) }
+  self.filter = fn(_, x) { self.grid.get(x) != Some(tile) }
   self
 }
 
 ///|
 pub fn BfsIter::only_tiles[T : Eq](self : BfsIter[T], tile : T) -> BfsIter[T] {
-  self.filter = fn(x) { self.grid.get(x) == Some(tile) }
+  self.filter = fn(_, x) { self.grid.get(x) == Some(tile) }
   self
 }
 
@@ -207,10 +235,18 @@ pub fn BfsIter::on_visit[T](
 }
 
 ///|
+// pub fn BfsIter::allow_rediscover[T](self : BfsIter[T]) -> BfsIter[T] {
+//   self.allow_rediscover = true
+//   self
+// }
+
+///|
 pub fn BfsIter::iter[T](self : BfsIter[T]) -> Iter[Point] {
   Iter::new(fn(yield_) {
-    let queue = @queue.new()
-    queue.push(self.stt)
+    if self.stt.length() == 0 {
+      println("warning: no start point")
+    }
+    let queue = @queue.from_array(self.stt)
     let discovered = Grid::new(self.grid.size(), false)
     let visited = Grid::new(self.grid.size(), false)
     while true {
@@ -228,7 +264,7 @@ pub fn BfsIter::iter[T](self : BfsIter[T]) -> Iter[Point] {
         if discovered[next] || visited[next] {
           continue
         }
-        if (self.filter)(next) == false {
+        if (self.filter)(cur, next) == false {
           continue
         }
         discovered[next] = true
