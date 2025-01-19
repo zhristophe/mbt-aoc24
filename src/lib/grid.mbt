@@ -322,6 +322,15 @@ pub fn Point::move_to(self : Point, dir : Direction) -> Point {
 }
 
 ///|
+pub fn Point::transpose(self : Point, able~ : Bool = true) -> Point {
+  if able {
+    Point::new(self.r, self.c)
+  } else {
+    self
+  }
+}
+
+///|
 pub fn Point::with_row(self : Point, r : Int) -> Point {
   Point::new(r, self.c)
 }
