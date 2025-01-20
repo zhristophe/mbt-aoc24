@@ -20,6 +20,15 @@ pub fn parse_int(s : String) -> Int {
 }
 
 ///|
+pub fn parse_int64(s : String) -> Int64 {
+  try {
+    @strconv.parse_int64!(s)
+  } catch {
+    _ => 0
+  }
+}
+
+///|
 pub fn parse_uint(s : String) -> UInt {
   try {
     @strconv.parse_uint!(s)
