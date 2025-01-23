@@ -2,7 +2,7 @@
 fn main {
   try {
     let e = { stt: None }
-    for day in 1..=13 {
+    for day in 1..=14 {
       for part in 1..=2 {
         e.run!(day, part)
       }
@@ -54,6 +54,8 @@ fn Executor::run(self : Executor, day : Int, part : Int) -> Unit! {
     (12, 2) => @day12.part2!(0).to_string()
     (13, 1) => @day13.part1!(0).to_string()
     (13, 2) => @day13.part2!(0).to_string()
+    (14, 1) => @day14.part1!(0).to_string()
+    (14, 2) => @day14.part2!(0).to_string()
     _ => raise ExecutorError("invalid day and part: \{day}, \{part}")
   }
   println("day \{day} part \{part} ans: \{_ans}")
