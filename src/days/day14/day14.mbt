@@ -58,11 +58,14 @@ fn get_grid(
 }
 
 ///| 根据点的聚集程度寻找候选
-fn find_candidates() -> Unit! {
+fn find_candidates(maxn : Int) -> Unit! {
+  if maxn == 0 {
+    return
+  }
   let input = input!(0)
   let (col_cnt, row_cnt) = (101, 103)
   let mut n = 0
-  for time in 0..<10000 {
+  for time in 0..<maxn {
     let grid = get_grid(row_cnt, col_cnt, input, time)
     let mut cnt = 0
     for pt in grid.points() {
@@ -81,7 +84,7 @@ fn find_candidates() -> Unit! {
 }
 
 test "day14_find_candidates" {
-  find_candidates!()
+  find_candidates!(0)
 }
 
 ///| 当有16个连续点时
