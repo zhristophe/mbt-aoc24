@@ -58,7 +58,7 @@ fn input(idx : Int) -> Array[Array[Int64]]! {
     ,
   )
   input
-  .split("\n")
+  .split("\n\n")
   .map(fn {
     line =>
       pat.matches(line).captures()[1:].map(fn { x => @lib.parse_int64(x) })
