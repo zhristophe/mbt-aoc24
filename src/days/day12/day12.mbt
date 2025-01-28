@@ -43,7 +43,7 @@ pub fn recolor(grid : @lib.Grid[Char]) -> (@lib.Grid[Int], Array[Int]) {
     new_grid
     .bfs_iter_builder()
     .start_from(pt)
-    .filter(fn { old, new => grid[new] == grid[old] })
+    .neighbor_filter(fn(old, new, _) { grid[new] == grid[old] })
     .on_visit(fn {
       pt => {
         new_grid[pt] = color

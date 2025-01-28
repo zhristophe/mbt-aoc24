@@ -163,10 +163,10 @@ pub fn Grid::bfs_iter_builder[T](self : Grid[T]) -> BfsIter[T] {
   {
     grid: self,
     stt: [],
-    filter: fn(_, _) { true },
+    filter: fn(_) { true },
     discovery_handler: fn(_, _) {  },
     visit_handler: fn(_) {  },
-    // allow_rediscover: false,
+    neighbor_filter: None,
   }
 }
 
@@ -174,10 +174,10 @@ pub fn Grid::bfs_iter_builder[T](self : Grid[T]) -> BfsIter[T] {
 struct BfsIter[T] {
   grid : Grid[T]
   stt : Array[Point]
-  mut filter : (Point, Point) -> Bool
+  mut filter : (Point) -> Bool
   mut discovery_handler : (Point, Point) -> Unit
   mut visit_handler : (Point) -> Unit
-  // mut allow_rediscover : Bool
+  mut neighbor_filter : ((Point, Point, Direction) -> Bool)?
 }
 
 ///|
@@ -196,23 +196,29 @@ pub fn BfsIter::start_from_points[T](
 }
 
 ///|
-pub fn BfsIter::filter[T](
+pub fn BfsIter::neighbor_filter[T](
   self : BfsIter[T],
-  f : (Point, Point) -> Bool
+  f : (Point, Point, Direction) -> Bool
 ) -> BfsIter[T] {
+  self.neighbor_filter = Some(f)
+  self
+}
+
+///|
+pub fn BfsIter::filter[T](self : BfsIter[T], f : (Point) -> Bool) -> BfsIter[T] {
   self.filter = f
   self
 }
 
 ///|
 pub fn BfsIter::skip_tiles[T : Eq](self : BfsIter[T], tile : T) -> BfsIter[T] {
-  self.filter = fn(_, x) { self.grid.get(x) != Some(tile) }
+  self.filter = fn(x) { self.grid.get(x) != Some(tile) }
   self
 }
 
 ///|
 pub fn BfsIter::only_tiles[T : Eq](self : BfsIter[T], tile : T) -> BfsIter[T] {
-  self.filter = fn(_, x) { self.grid.get(x) == Some(tile) }
+  self.filter = fn(x) { self.grid.get(x) == Some(tile) }
   self
 }
 
@@ -258,15 +264,15 @@ pub fn BfsIter::iter[T](self : BfsIter[T]) -> Iter[Point] {
       (self.visit_handler)(cur)
       for dir in dirs() {
         let next = cur.move_to(dir)
-        if self.grid.contains(next) == false {
-          continue
+        guard self.grid.contains(next) else { continue }
+        match self.neighbor_filter {
+          Some(f) => if f(cur, next, dir) == false { continue }
+          _ => ()
         }
         if discovered[next] || visited[next] {
           continue
         }
-        if (self.filter)(cur, next) == false {
-          continue
-        }
+        guard (self.filter)(next) else { continue }
         discovered[next] = true
         (self.discovery_handler)(cur, next)
         queue.push(next)
@@ -421,6 +427,11 @@ pub fn Direction::to_index(self : Direction) -> Int {
     Direction::Left => 2
     Direction::Right => 3
   }
+}
+
+///|
+pub fn Direction::to_int(self : Direction) -> Int {
+  self.to_index()
 }
 
 ///|

@@ -7,7 +7,7 @@ pub fn part1(idx : Int) -> Int! {
     grid
     .bfs_iter_builder()
     .start_from(stt)
-    .filter(fn { old, new => grid[new] == grid[old] + 1 })
+    .neighbor_filter(fn(old, new, _) { grid[new] == grid[old] + 1 })
     .on_visit(fn { pt => if grid[pt] == 9 { res += 1 } })
     .run()
   }
@@ -24,7 +24,7 @@ pub fn part2(idx : Int) -> Int! {
   grid
   .bfs_iter_builder()
   .start_from_points(stts)
-  .filter(fn { old, new => grid[new] == grid[old] + 1 })
+  .neighbor_filter(fn(old, new, _) { grid[new] == grid[old] + 1 })
   .on_visit(fn {
     pt =>
       for adj in grid.find_adj(pt) {

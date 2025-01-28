@@ -56,6 +56,10 @@ fn Executor::run(self : Executor, day : Int, part : Int) -> Unit! {
     (13, 2) => @day13.part2!(0).to_string()
     (14, 1) => @day14.part1!(0).to_string()
     (14, 2) => @day14.part2!(0).to_string()
+    (15, 1) => @day15.part1!(0).to_string()
+    (15, 2) => @day15.part2!(0).to_string()
+    (16, 1) => @day16.part1!(0).to_string()
+    (16, 2) => @day16.part2!(0).to_string()
     _ => raise ExecutorError("invalid day and part: \{day}, \{part}")
   }
   println("day \{day} part \{part} ans: \{_ans}")
