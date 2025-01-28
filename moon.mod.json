@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "deps": {
     "moonbitlang/x": "0.4.17",
-    "yj-qin/regexp": "0.3.3"
+    "yj-qin/regexp": "0.3.4"
   },
   "readme": "README.md",
   "repository": "",

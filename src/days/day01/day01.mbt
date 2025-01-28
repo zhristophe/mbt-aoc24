@@ -24,7 +24,8 @@ fn input(idx : Int) -> Array[Array[Int]]! {
   let input = @lib.fetch_input!(day=1, idx~)
   let res = [[], []]
   let reg = @regexp.compile!("([0-9]+) +([0-9]+)")
-  for line in input.split("\n") {
+  // for line in @lib.lines(input) {
+  for line in @lib.lines(input) {
     let m = reg.matches(line)
     for i in 0..=1 {
       res[i].push(@strconv.parse_int!(m.captures()[i + 1]))

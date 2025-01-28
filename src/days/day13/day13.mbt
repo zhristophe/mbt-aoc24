@@ -57,11 +57,13 @@ fn input(idx : Int) -> Array[Array[Int64]]! {
     #|Prize: X=(\d+), Y=(\d+)
     ,
   )
-  input
-  .split("\n\n")
+  @lib.lines(input)
+  .collect()
+  .split(fn { s => s.is_empty() })
   .map(fn {
     line =>
-      pat.matches(line).captures()[1:].map(fn { x => @lib.parse_int64(x) })
+      pat.matches(@lib.join(line, "\n")).captures()[1:].map(fn {
+        x => @lib.parse_int64(x)
+      })
   })
-  .collect()
 }

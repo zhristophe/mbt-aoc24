@@ -76,5 +76,5 @@ pub fn part2(idx : Int) -> Int! {
 ///| 处理输入
 fn input(idx : Int) -> Array[Array[Char]]! {
   let input = @lib.fetch_input!(day=8, idx~)
-  input.split("\n").map(fn { line => line.to_array() }).collect()
+  @lib.lines(input).map(fn { line => line.to_array() }).collect()
 }

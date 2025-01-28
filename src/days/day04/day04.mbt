@@ -17,7 +17,7 @@ pub fn part1(idx : Int) -> Int! {
     for dir in dirs {
       let ok = loop pt, str[:] {
         _, [] => break true
-        pt, [ch, .. as t] => {
+        pt, [ch, .. t] => {
           guard Some(ch) == grid.get(pt) else { break false }
           continue pt + dir, t
         }
@@ -57,5 +57,5 @@ pub fn part2(idx : Int) -> Int! {
 ///| 处理输入
 fn input(idx : Int) -> Array[Array[Char]]! {
   let input = @lib.fetch_input!(day=4, idx~)
-  input.split("\n").map(fn { s => s.to_array() }).collect()
+  @lib.lines(input).map(fn { s => s.to_array() }).collect()
 }

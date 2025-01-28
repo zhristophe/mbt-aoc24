@@ -60,8 +60,7 @@ pub fn part2(idx : Int) -> UInt64! {
 ///| 处理输入
 fn input(idx : Int) -> Array[(UInt64, Array[UInt64])]! {
   let input = @lib.fetch_input!(day=7, idx~)
-  input
-  .split("\n")
+  @lib.lines(input)
   .map(fn {
     line => {
       guard let [tgt, seq] = line.split(": ").collect()

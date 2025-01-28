@@ -69,7 +69,7 @@ pub fn part2(idx : Int) -> Int! {
 fn input(idx : Int) -> Array[Array[Int]]! {
   let input = @lib.fetch_input!(day=2, idx~)
   let res = []
-  for line in input.split("\n") {
+  for line in @lib.lines(input) {
     let tmp = []
     for s in line.split(" ") {
       tmp.push(@strconv.parse_int!(s.trim_start(" ")))

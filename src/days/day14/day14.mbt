@@ -129,8 +129,7 @@ fn input(idx : Int) -> Array[Array[Int]]! {
     #|p=(\d+),(\d+) v=(-?\d+),(-?\d+)
     ,
   )
-  input
-  .split("\n")
+  @lib.lines(input)
   .map(fn {
     line => pat.matches(line).captures()[1:].map(fn { x => @lib.parse_int(x) })
   })

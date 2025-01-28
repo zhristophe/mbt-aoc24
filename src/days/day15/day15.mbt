@@ -144,9 +144,11 @@ pub fn part2(idx : Int) -> Int! {
 ///| 处理输入
 fn input(idx : Int) -> (Array[Array[Char]], Array[Char])! {
   let input = @lib.fetch_input!(day=15, idx~)
-  guard let [map, seq] = input.split("\n\n").collect()
+  guard let [map, seq] = @lib.lines(input)
+    .collect()
+    .split(fn { s => s.is_empty() })
   (
-    map.split("\n").map(fn { line => line.iter().collect() }).collect(),
-    seq.split("\n").flat_map(fn { line => line.iter() }).collect(),
+    map.map(fn { line => line.iter().collect() }),
+    seq.iter().flat_map(fn { line => line.iter() }).collect(),
   )
 }

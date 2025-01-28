@@ -40,8 +40,7 @@ pub fn part2(idx : Int) -> Int! {
 ///| 处理输入
 fn input(idx : Int) -> Array[Array[Int]]! {
   let input = @lib.fetch_input!(day=10, idx~)
-  input
-  .split("\n")
+  @lib.lines(input)
   .map(fn { line => line.iter().map(fn { c => c - '0' }).collect() })
   .collect()
 }

@@ -52,21 +52,17 @@ pub fn part2(idx : Int) -> Int! {
 ///| 处理输入
 fn input(idx : Int) -> (@hashmap.T[Int, @hashset.T[Int]], Array[Array[Int]])! {
   let input = @lib.fetch_input!(day=5, idx~)
-  let input = input.split("\n\n").collect()
+  let input = @lib.lines(input).collect().split(fn { s => s.is_empty() })
+  guard let [order_lines, seq_lines] = input
   let order = @hashmap.new(capacity=100)
-  for line in input[0].split("\n") {
+  for line in order_lines {
     guard let [a, b] = line.split("|").collect()
     order
-    .get_or_init(@strconv.parse_int!(a), fn() { @hashset.new() })
-    .add(@strconv.parse_int!(b))
+    .get_or_init(@lib.parse_int(a), fn() { @hashset.new() })
+    .add(@lib.parse_int(b))
   }
-  let seqs = []
-  for line in input[1].split("\n") {
-    let seq = []
-    for num in line.split(",") {
-      seq.push(@strconv.parse_int!(num))
-    }
-    seqs.push(seq)
-  }
+  let seqs = seq_lines.map(fn(line) {
+    line.split(",").map(fn(num) { @lib.parse_int(num) }).collect()
+  })
   (order, seqs)
 }

@@ -225,5 +225,5 @@ pub fn part2_fast(idx : Int) -> Int! {
 ///| 处理输入
 fn input(idx : Int) -> Array[Array[Char]]! {
   let input = @lib.fetch_input!(day=6, idx~)
-  input.split("\n").map(fn { s => s.to_array() }).collect()
+  @lib.lines(input).map(fn { s => s.to_array() }).collect()
 }

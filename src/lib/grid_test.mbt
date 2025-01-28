@@ -68,7 +68,7 @@ test "grid_bfs" {
     #|S#E
     #|.#.
     #|...
-  let grid = grid.split("\n").map(fn { s => s.to_array() }).collect()
+  let grid = @lib.lines(grid).map(fn { s => s.to_array() }).collect()
   let grid = Grid::from(grid)
   let stt = grid.find_point('S').unwrap()
   let end = grid.find_point('E').unwrap()
