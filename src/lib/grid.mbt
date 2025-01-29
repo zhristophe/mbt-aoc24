@@ -64,7 +64,7 @@ pub fn Grid::get[T](self : Grid[T], pt : Point) -> T? {
 }
 
 ///|
-pub fn Grid::get_and_set[T](self : Grid[T], pt : Point, val : T) -> T? {
+pub fn Grid::replace[T](self : Grid[T], pt : Point, val : T) -> T? {
   if self.contains(pt) {
     let old = self.inner[pt.r][pt.c]
     self.inner[pt.r][pt.c] = val

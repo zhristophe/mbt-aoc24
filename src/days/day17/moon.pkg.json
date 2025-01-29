@@ -1,0 +1,5 @@
+{
+    "import": [
+      "zhristophe/mbt-aoc24/lib"
+    ]
+}

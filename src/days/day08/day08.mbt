@@ -9,7 +9,7 @@ pub fn part1(idx : Int) -> Int! {
     for i, pt0 in pts {
       for pt1 in pts[i + 1:] {
         for pt in [pt0.times(2) - pt1, pt1.times(2) - pt0] {
-          if record.get_and_set(pt, true) == Some(false) {
+          if record.replace(pt, true) == Some(false) {
             res += 1
           }
         }
@@ -53,7 +53,7 @@ pub fn part2(idx : Int) -> Int! {
           let d = pt0 - pt1
           loop pt0 {
             pt =>
-              match record.get_and_set(pt, true) {
+              match record.replace(pt, true) {
                 Some(f) => {
                   if f == false {
                     res += 1

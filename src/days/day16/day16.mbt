@@ -80,7 +80,7 @@ pub fn part2(idx : Int) -> Int! {
   }
   while queue.is_empty() == false {
     let (pt, dir) = queue.pop().unwrap()
-    if visited.get_and_set(pt, true) == Some(false) {
+    if visited.replace(pt, true) == Some(false) {
       res += 1
     }
     let dis_ = dis[pt][dir.to_index()]
